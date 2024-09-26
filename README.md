@@ -35,24 +35,6 @@ Este é um sistema de gerenciamento de biblioteca desenvolvido em C como parte d
 
 - **`main.cpp`**: Arquivo principal com o loop do menu e chamadas de funções.
 
-## Como Executar
-
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/seu-usuario/nome-do-repositorio.git
-
-2. Para compilar o código, utilize o seguinte comando:
-
-```bash
-gcc main.c livros.c -o biblioteca
-```
-
-3. Para executar o programa, use:
-
-```bash
-./biblioteca
-```
-
 ## Como Usar
 
 O sistema oferece um menu interativo com as seguintes opções:
@@ -87,7 +69,7 @@ Escolha uma opção:
 
 ## Entrega
 
-O projeto deverá ser entregue no Canvas até **01/11**. Cada grupo deverá apresentar o sistema funcionando e explicar as principais decisões de implementação.
+O projeto deverá ser entregue no Canvas até **1° de Novembro de 2024**. Cada grupo deverá apresentar o sistema funcionando e explicar as principais decisões de implementação.
 
 ---
 
