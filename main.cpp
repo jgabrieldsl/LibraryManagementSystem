@@ -53,12 +53,13 @@ int main () {
     int opt;
     do  {
         cout << "Bem vindo ao Sistema de Gerenciamento de Biblioteca!" << endl << endl;
+        cout << "Escolha uma opção: " << endl << endl;
         cout << "1. Cadastro de livros" << endl;    
         cout << "2. Consultar livros" << endl;    
         cout << "3. Emprestar livro" << endl;    
         cout << "4. Devolução de livros" << endl;    
         cout << "5. Remoção de livros" << endl;   
-        cout << "6. Sair do programa;" << endl;
+        cout << "6. Sair do programa" << endl;
         cin >> opt;
 
         switch (opt) {
@@ -75,6 +76,7 @@ int main () {
             case 5:
                 break;
             case 6:
+                cout << "Até logo...";
                 break;
             default:
                 cout << "Opção inválida!";
