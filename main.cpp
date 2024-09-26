@@ -46,7 +46,7 @@ void cadastrar_livros(struct livro dados[], int *quant_cadastro) {
 }
 
 
-
+// Menu - João Gabriel
 int main () {
     struct livro vetLivros[100];
     int qtd = 0;
