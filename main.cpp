@@ -2,57 +2,89 @@
 #include <cstdlib> // biblioteca para limpar tela
 using namespace std;
 
+// Função para limpar a tela
+void limparTela(){
+    system("clear");
+}
+
+// Estrutura para os livros
 struct livro {
     char titulo[100];
     char autor[100];
     int num_paginas;
     int ano_publicacao;
     int id;
-    int quantidade_disponivel;
-    char nome_emprestaram[100];
+    int quantidade_disponivel; // Máximo de 10 exemplares
+    char nome_emprestaram[10][100]; // Array de nomes -> Máximo 10 nomes c/ tamanho de 100 caracteres.
 };
 
+// vetLivro [0] = {'titulo', 'auto', 120, 2024, 1, 2, "João" }
+
+// Estrutura para as pessoas
 struct pessoa {
     char nome[100];
     int documento;
     int idade;
 };
 
-void limparTela(){
-    system("clear");
-}
-
-// indexar
-void printLivros(struct livro livroscadastrados[], int pos) {
-    cout << "Título: " << livroscadastrados[pos].titulo << endl;
-    cout << "Autor: " << livroscadastrados[pos].autor << endl;
-    cout << "Número de Páginas: " << livroscadastrados[pos].num_paginas << endl;
-    cout << "Id: " << livroscadastrados[pos].ano_publicacao << endl;
-    cout << "Quantidade de Exemplares Dísponiveis: " << livroscadastrados[pos].quantidade_disponivel << endl;
-    cout << "Nome das Pessoas que Emprestaram: " << livroscadastrados[pos].nome_emprestaram << endl << endl;
-}
-
-void printLivrosVet(struct livro livroscadastrados[], int *sz){
-    for (int i = 0; i < *sz; i++) {
-        printLivros(livroscadastrados, i);
+// O '&' antes do nome do parâmetro indica que estamos acessando diretamente a estrutura, em vez de criar uma cópia dela para realizar as operações necessárias.
+void printLivros(livro &livros) {
+    cout << "Título: " << livros.titulo << endl;
+    cout << "Autor: " << livros.autor << endl;
+    cout << "Número de Páginas: " << livros.num_paginas << endl;
+    cout << "Id: " << livros.ano_publicacao << endl;
+    cout << "Quantidade de Exemplares Dísponiveis: " << livros.quantidade_disponivel << endl;
+    cout << "Nome das Pessoas que estão com o livro: ";
+    for (int i = 0; i < 10; i++) {
+        if (livros.nome_emprestaram[i][0] != '\0') {
+            cout << livros.nome_emprestaram[i] << ", ";
+        }
     }
+    cout << "/////////////////////////////////";
 }
 
-void printUmLivro(struct livro livroscadastrados[], int *sz){
-    printLivros(livroscadastrados, i);
+// Chamamos 'sz' normalmente. Usamos *sz somente para modificar o conteúdo diretamente.
+void printLivrosVet(livro livros[], int sz){
+    if (sz > 0) {
+        for (int i = 0; i < sz; i++) {
+            printLivros(livros[i]);
+        }
+    } else {
+        cout << "Nenhum livro cadastrado!" << endl;
     }
+    
+}
 
-void cadastrarLivros(struct livro livroscadastrados[], int *qtd_cadastro) { 
+void cadastrarLivros(livro livros[], int *sz) { 
     limparTela();
+    if (*sz == 100) {
+        cout << "Não é possível adicionar mais livros. Limite atingido!";
+        return;
+    }\
+    int qtd_pessoas;
+    cout << "Titulo: "; cin.getline(livros[*sz].titulo, 100);
+    cout << "Autor : "; cin.getline(livros[*sz].autor, 100);
+    cout << "Número de páginas: "; cin >> livros[*sz].num_paginas;
+    cout << "Ano de publicação: "; cin >> livros[*sz].ano_publicacao;
+    cout << "ID: "; cin >> livros[*sz].id;
+    cout << "Exemplares dísponiveis: "; cin >> livros[*sz].quantidade_disponivel;
+    cout << "Quantas pessoas estão com este livro emprestado atualmente?: "; cin >> qtd_pessoas;
+    cin.ignore();
+    if (qtd_pessoas > 0) {
+        for (int i = 0; i < qtd_pessoas; i++) {
+            cout << "Digite o nome da " << i + 1 << "° pessoa que está com o livro: ";
+            cin.getline(livros[*sz].nome_emprestaram[i], 100);
+        }
+    } else if (qtd_pessoas <= 0) {
+        for (int i = 0; i < 10; i++) {
+            livros[*sz].nome_emprestaram[i][0] = '\0';
+        }
+    }
 
-    cout << "Titulo: "; cin.getline(livroscadastrados[*qtd_disponivel].titulo, 100);
-    cout << "Autor : "; cin.getline(livroscadastrados[*qtd_disponivel].autor, 100);
-    cout << "Número de páginas: "; cin >> livroscadastrados[*qtd_disponivel].num_paginas;
-    cout << "ID: "; cin >> livroscadastrados[*qtd_disponivel].id;
-    cout << "Quantidade dísponivel: "; cin >> livroscadastrados[*qtd_disponivel].quantidade_disponivel;
-    (*qtd_disponivel)++;
+    (*sz)++;
 }
 
+/*
 int consultaLivros(struct livro livroscadastrados[], int sz) {
     int valor; int id; int titulo;
     
@@ -87,16 +119,16 @@ int consultaLivros(struct livro livroscadastrados[], int sz) {
 return 0;
 
 }
+*/
 
 void emprestimoLivros(struct livro livroscadastrados[], int *sz) {
     int opcao;
 
-    cout << "Deseja consultar os livros cadastrados? [1/Sim] [2/Não]: ";
+    cout << "Deseja consultar todos os livros cadastrados? [1/Sim] [2/Não]: ";
     cin >> opcao;
 
     if (opcao == 1) { 
         printLivrosVet(livroscadastrados, *sz);
-
     } else {
         do {
         cout << "Você quer buscar o livro pelo ID ou nome do livro?: " << endl;
@@ -131,6 +163,7 @@ void emprestimoLivros(struct livro livroscadastrados[], int *sz) {
     }
 }
 
+/*
 void devolucaoLivros(struct livro livroscadastrados[], int *quant_disponivel, int sz){
     // Bruno
     int opcao = 0;
@@ -211,7 +244,7 @@ void remocaoLivros(struct livro livroscadastrados[], *sz){
     }
 
 }
-
+*/
 
 int main () {
     struct livro vetLivros[100];
@@ -237,9 +270,10 @@ int main () {
                 break;
             case 2:
                 cin.ignore();
-                consultaLivros(vetLivros, qtd_disponivel); 
+                // consultaLivros(vetLivros, qtd_disponivel); 
                 break;
             case 3:
+                emprestimoLivros(vetLivros, &qnt_livros);                
                 break;
             case 4:
                 break;
