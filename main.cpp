@@ -32,7 +32,8 @@ void printLivros(livro &livros) {
     cout << "Título: " << livros.titulo << endl;
     cout << "Autor: " << livros.autor << endl;
     cout << "Número de Páginas: " << livros.num_paginas << endl;
-    cout << "Id: " << livros.ano_publicacao << endl;
+    cout << "Ano de publicação: " << livros.ano_publicacao << endl;
+    cout << "Id: " << livros.id << endl;
     cout << "Quantidade de Exemplares Dísponiveis: " << livros.quantidade_disponivel << endl;
     cout << "Nome das Pessoas que estão com o livro: ";
     for (int i = 0; i < 10; i++) {
@@ -40,7 +41,7 @@ void printLivros(livro &livros) {
             cout << livros.nome_emprestaram[i] << ", ";
         }
     }
-    cout << "/////////////////////////////////";
+    cout << "/////////////////////////////////" << endl;
 }
 
 // Chamamos 'sz' normalmente. Usamos *sz somente para modificar o conteúdo diretamente.
@@ -60,7 +61,7 @@ void cadastrarLivros(livro livros[], int *sz) {
     if (*sz == 100) {
         cout << "Não é possível adicionar mais livros. Limite atingido!";
         return;
-    }\
+    }
     int qtd_pessoas;
     cout << "Titulo: "; cin.getline(livros[*sz].titulo, 100);
     cout << "Autor : "; cin.getline(livros[*sz].autor, 100);
@@ -146,6 +147,7 @@ void emprestimoLivros(struct livro livroscadastrados[], int *sz) {
                     cout << "Título: " << livroscadastrados[i].titulo << endl;
                     cout << "Autor: " << livroscadastrados[i].autor << endl;
                     cout << "Número de Páginas: " << livroscadastrados[i].num_paginas << endl;
+                    cout << "Ano de publicação: " << livroscadastrados[i].ano_publicacao;
                     cout << "Id: " << livroscadastrados[i].ano_publicacao << endl;
                     cout << "Quantidade de Exemplares Dísponiveis: " << livroscadastrados[i].quantidade_disponivel << endl;
                     cout << "Nome das Pessoas que Emprestaram: " << livroscadastrados[i].nome_emprestaram << endl << endl;
@@ -163,54 +165,86 @@ void emprestimoLivros(struct livro livroscadastrados[], int *sz) {
     }
 }
 
-/*
-void devolucaoLivros(struct livro livroscadastrados[], int *quant_disponivel, int sz){
-    // Bruno
-    int opcao = 0;
 
-    cout << "Deseja consultar os livros cadastrados? [1 / sim] [2 / não]: "; 
+void devolucaoLivros(struct livro livroscadastrados[], int *sz) {
+    int opcao, id;
+
+    cout << "========== Devolução de livros ==========" << endl;
+
+    cout << "Deseja consultar os livros já cadastrados? [1 / sim] [2 / não]: "; 
     cin >> opcao;
 
-    if(opcao == 1){
-        printLivrosVet() // verificar como 
-        return;
-        
-    }else{
-
-    do
-    {
-        cout << "Você deseja buscar livro pelo ID ou pelo título?: " << endl;
-        cout << "(1) ID" << endl;
-        cout << "(2) Título" << endl; 
-        cin >> opcao;    
-
-        if (opcao != 1 && opcao != 2){
-            cout << "Opção Digitada inválida." << endl;
+    if (opcao == 1) {
+        printLivrosVet(livroscadastrados, *sz);
     }
-    }while(opcao != 1 && opcao != 2);
-
-    if(opcao == 1){
-        int id = 0;
+    
+    while (true) {
         
-        cout << "Digite o ID do livro: ";
+        cout << "Digite o Id do livro que deseja devolver: ";
         cin >> id;
-        //verificar se o que ele digitou existe
-        for(int i = 0; i < sz; i++){ //verificar como ficou o "sz"
 
-        
-        
-
+        bool existe = false;
+            
+        for (int i = 0; i < *sz; i++) { // verificar se o livro existe e realiza a devolução
+            
+            if (id == livroscadastrados[i].id) {
+                
+                livroscadastrados[i].quantidade_disponivel++;
+                
+                existe = true;
+                
+                cout << "Livro devolvido com sucesso!" << endl;
+                break;
+            }
         }
+            
+        if(existe){
+            char nome[100];
+            
+            cout << "Digite o nome da pessoa que devolveu o livro: ";
+            cin >> nome;
+            
+            for(int i = 0; i < *sz; i++){
+                
+                if(id == livroscadastrados[i].id){
+                    
+                    for(int j = 0; j < 10; j++ ){
+                        
+                        if(livroscadastrados[i].nome_emprestaram[j] == nome){
+                            
+                            //livroscadastrados[i].nome_emprestaram[j][0] = '\0'; (ARRUMAR!!!)
+                            
+                            cout << "Nome removido com sucesso!";
+                            break; // Sai do "for" que verifica a lista dos nomes porque o "nome" já foi encontrado e "limpo"
+                        }
+                    }
+                    break; // Sai do "for" que verifica a lista dos livro. Assim que um livro é encontrado e o nome é limpo, não precisa ver os outros livros.
+                }
+            }
+        }
+            
+        if (!existe) { // Se não encontrou o livro
+            cout << "Livro não encontrado. Tente novamente..." << endl;
+            continue;
+        }
+            int opcao2;
+            cout << "Deseja devolver outro livro? [1 - sim] [2 - não]: ";
+            cin >> opcao2;
 
+            if(opcao2 == 1){
+                continue;
+            }else{
+            cout << "Saindo para o Menu...";
+            return;
+            }
     }
-       
- }
-
-    
-    
 }
 
-void remocaoLivros(struct livro livroscadastrados[], *sz){
+
+    
+
+/*
+void remocaoLivros(struct livro livroscadastrados[], int *sz){
     
     int opcao;
     int id_requisitado;
@@ -276,6 +310,7 @@ int main () {
                 emprestimoLivros(vetLivros, &qnt_livros);                
                 break;
             case 4:
+                devolucaoLivros(vetLivros, &qnt_livros);
                 break;
             case 5:
                 break;
