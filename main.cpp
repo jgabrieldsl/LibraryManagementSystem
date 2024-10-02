@@ -175,17 +175,17 @@ void devolucaoLivros(struct livro livroscadastrados[], int *sz) {
     cin >> opcao;
 
     if (opcao == 1) {
-        printLivrosVet(livroscadastrados, *sz);
+        printLivrosVet(livroscadastrados, *sz); // Imprime na tela os livros cadastrados
     }
     
-    while (true) {
+    while (true) { // loop para caso o usuário desejar devolver um outro livro
         
         cout << "Digite o Id do livro que deseja devolver: ";
         cin >> id;
 
-        bool existe = false;
+        bool existe = false; // Utilizado para verificar se o livro já foi cadastrado no sistema ou não
             
-        for (int i = 0; i < *sz; i++) { // verificar se o livro existe e realiza a devolução
+        for (int i = 0; i < *sz; i++) { // verificar se o id digitado existe (encontrar o livro percorrendo a lista dos livros) e realiza a devolução
             
             if (id == livroscadastrados[i].id) {
                 
@@ -198,17 +198,17 @@ void devolucaoLivros(struct livro livroscadastrados[], int *sz) {
             }
         }
             
-        if(existe){
+        if(existe){ // "se" "existe" for verdadeiro:
             char nome[100];
             
             cout << "Digite o nome da pessoa que devolveu o livro: ";
             cin >> nome;
             
-            for(int i = 0; i < *sz; i++){
+            for(int i = 0; i < *sz; i++){ // loop para percorrer a lista de livros
                 
                 if(id == livroscadastrados[i].id){
                     
-                    for(int j = 0; j < 10; j++ ){
+                    for(int j = 0; j < 10; j++ ){ // loop para percorrer a lista de nomes que pegaram um determinado livro emprestado
                         
                         if(livroscadastrados[i].nome_emprestaram[j] == nome){
                             
@@ -223,19 +223,19 @@ void devolucaoLivros(struct livro livroscadastrados[], int *sz) {
             }
         }
             
-        if (!existe) { // Se não encontrou o livro
+        if (!existe) { // "Se" "existe" for diferente de verdadeiro (não encontrou):
             cout << "Livro não encontrado. Tente novamente..." << endl;
-            continue;
+            continue; // volta para o inicio do While
         }
             int opcao2;
             cout << "Deseja devolver outro livro? [1 - sim] [2 - não]: ";
             cin >> opcao2;
 
             if(opcao2 == 1){
-                continue;
+                continue; // volta para o inicio do While
             }else{
             cout << "Saindo para o Menu...";
-            return;
+            return; //sai da função e volta para a anterior (Menu)
             }
     }
 }
