@@ -38,7 +38,7 @@ void printLivros(livro &livros) {
     cout << "Nome das Pessoas que estão com o livro: ";
     for (int i = 0; i < 10; i++) {
         if (livros.nome_emprestaram[i][0] != '\0') {
-            cout << livros.nome_emprestaram[i] << ", ";
+            cout << livros.nome_emprestaram[i] << " " << endl;
         }
     }
     cout << "/////////////////////////////////" << endl;
@@ -53,7 +53,6 @@ void printLivrosVet(livro livros[], int sz){
     } else {
         cout << "Nenhum livro cadastrado!" << endl;
     }
-    
 }
 
 void cadastrarLivros(livro livros[], int *sz) { 
@@ -142,26 +141,20 @@ void emprestimoLivros(struct livro livroscadastrados[], int *sz) {
             int id_digitado;
             cout << "Digite o ID do livro: "; cin >> id_digitado;
             bool encontrado = false;
+
             for (int i = 0; i < *sz; i ++) {
-                if (id_digitado == livroscadastrados[i].id) {
-                    cout << "Título: " << livroscadastrados[i].titulo << endl;
-                    cout << "Autor: " << livroscadastrados[i].autor << endl;
-                    cout << "Número de Páginas: " << livroscadastrados[i].num_paginas << endl;
-                    cout << "Ano de publicação: " << livroscadastrados[i].ano_publicacao;
-                    cout << "Id: " << livroscadastrados[i].ano_publicacao << endl;
-                    cout << "Quantidade de Exemplares Dísponiveis: " << livroscadastrados[i].quantidade_disponivel << endl;
-                    cout << "Nome das Pessoas que Emprestaram: " << livroscadastrados[i].nome_emprestaram << endl << endl;
+                if (livroscadastrados[i].id = id_digitado) {
+                    printLivros(livroscadastrados[i]);
                     encontrado = true;
                     break;
                 }
             }
+            
             if (!encontrado) {
                 cout << "Livro com o ID: " << id_digitado << " não encontrado." << endl;
             }
 
-        } else {
-            
-        }
+        } 
     }
 }
 
