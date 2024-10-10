@@ -84,7 +84,6 @@ void cadastrarLivros(livro livros[], int *sz) {
     (*sz)++;
 }
 
-/*
 int consultaLivros(struct livro livroscadastrados[], int sz) {
     int valor; int id; int titulo;
     
@@ -94,32 +93,23 @@ int consultaLivros(struct livro livroscadastrados[], int sz) {
         return 1;
     } 
     
-    if (valor == 1){
+    if (valor == 1) {
         cout << "Agora, digite o ID do livro: "; cin >> id;
         for(int i = 0; i < sz; i++){
             if(livroscadastrados[i].id == id) {
                 cout << "Livro encontrado!" <<endl;
-                printLivrosVet(livroscadastrados, &sz); //precisa referenciar?
+                printLivrosVet(livroscadastrados, sz);
+                break;
             }
-        } cout << "Livro não encontrado pelo ID "<< livroscadastrados[i].id << endl;
+        } cout << "Livro não encontrado pelo ID "<< id << endl;
 
     } else if (valor == 2){
         cout << "Agora, digite o título do livro: "; cin >> titulo;
-        cin.ignore();
-        cin.getline(titulo, 100);
-        
-        for(int i = 0; i < sz; i++) {
-            if(strcmp(livroscadastrados[i].titulo, titulo) == 0){
-                printUmLivro(livroscadastrados, &sz); //precisa referenciar?
-            }
-            
-        } cout << "Livro não encontrado pelo Titulo "<< livroscadastrados[i].titulo << endl;
+        //
     }
 
-return 0;
-
+    return 0;
 }
-*/
 
 void emprestimoLivros(struct livro livroscadastrados[], int *sz) {
     int opcao;
@@ -130,32 +120,12 @@ void emprestimoLivros(struct livro livroscadastrados[], int *sz) {
     if (opcao == 1) { 
         printLivrosVet(livroscadastrados, *sz);
     } else {
-        do {
-        cout << "Você quer buscar o livro pelo ID ou nome do livro?: " << endl;
-        cout << "(1) ID" << endl;
-        cout << "(2) Nome" << endl;
-        cin >> opcao;
-        } while (opcao != 1 && opcao != 2);
-
-        if (opcao == 1) {
-            int id_digitado;
-            cout << "Digite o ID do livro: "; cin >> id_digitado;
-            bool encontrado = false;
-
-            for (int i = 0; i < *sz; i ++) {
-                if (livroscadastrados[i].id = id_digitado) {
-                    printLivros(livroscadastrados[i]);
-                    encontrado = true;
-                    break;
-                }
-            }
-            
-            if (!encontrado) {
-                cout << "Livro com o ID: " << id_digitado << " não encontrado." << endl;
-            }
-
-        } 
+        consultaLivros(livroscadastrados, *sz);
     }
+
+    cout << "Qual o ID do livro que deseja pegar?"; cin >> opcao;
+
+
 }
 
 
@@ -233,47 +203,9 @@ void devolucaoLivros(struct livro livroscadastrados[], int *sz) {
     }
 }
 
-void remocaoLivros(struct livro livroscadastrados[], int *sz){
-    
-    int opcao;
-    int id_requisitado;
-
-    cout << "==========Remover Livros==========" << endl;
-
-    cout << "\nDeseja consultar os livros cadastrados? \nDigite [1] para sim: \nDigite [2] para não: " << endl;
-    cin >> opcao;
-
-    if (opcao == 1)
-    {
-        printLivrosVet(livroscadastrados, *sz);
-        return;
-    } 
-    else
-    {
-        cout << "\nDigite o identificador para remover o livro: " << endl;
-        cin >> id_requisitado;
-
-        for (int i = 0; i <= *sz; i++) {
-            if(id_requisitado == livroscadastrados[i].id)
-            {
-                for(int j = i; j <= *sz; j++)
-                {
-                    livroscadastrados[j] = livroscadastrados[j + 1];
-                }
-            }
-        }
-
-        (*sz)--;
-        
-        cout << "Livro Removido!" << endl;
-    }
-}
-
 int main () {
     struct livro vetLivros[100];
-    int qnt_disponivel = 0;
-    int qnt_livros = 0;
-    int opcao = 0;
+    int qnt_livros = 0, opcao = 0;
     
     do  {
         cout << "\n\tMenu Sistema de Gerenciamento de Biblioteca!" << endl << endl;
@@ -293,7 +225,7 @@ int main () {
                 break;
             case 2:
                 cin.ignore();
-                // consultaLivros(vetLivros, qtd_disponivel); 
+                consultaLivros(vetLivros, qnt_livros); 
                 break;
             case 3:
                 emprestimoLivros(vetLivros, &qnt_livros);                
@@ -305,7 +237,7 @@ int main () {
                 break;
             case 6:
                 cout << "Até logo...";
-                break;
+                return 0;
             default:
                 cout << "Opção inválida!";
                 break;
