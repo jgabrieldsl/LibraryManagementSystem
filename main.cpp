@@ -233,19 +233,14 @@ void devolucaoLivros(struct livro livroscadastrados[], int *sz) {
     }
 }
 
-
-    
-
-/*
 void remocaoLivros(struct livro livroscadastrados[], int *sz){
     
     int opcao;
     int id_requisitado;
-    bool encontrou;
 
     cout << "==========Remover Livros==========" << endl;
 
-    cout << "\nDeseja consultar os livros cadastrados? [1/Sim] [2/Não]: " << endl;
+    cout << "\nDeseja consultar os livros cadastrados? \nDigite [1] para sim: \nDigite [2] para não: " << endl;
     cin >> opcao;
 
     if (opcao == 1)
@@ -258,20 +253,21 @@ void remocaoLivros(struct livro livroscadastrados[], int *sz){
         cout << "\nDigite o identificador para remover o livro: " << endl;
         cin >> id_requisitado;
 
-
-
-
-        for (int i = id_requisitado; i < *sz - 1; i++) {
-            livroscadastrados[i] = livroscadastrados[i + 1];
+        for (int i = 0; i <= *sz; i++) {
+            if(id_requisitado == livroscadastrados[i].id)
+            {
+                for(int j = i; j <= *sz; j++)
+                {
+                    livroscadastrados[j] = livroscadastrados[j + 1];
+                }
+            }
         }
 
         (*sz)--;
         
         cout << "Livro Removido!" << endl;
     }
-
 }
-*/
 
 int main () {
     struct livro vetLivros[100];
