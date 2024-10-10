@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdlib> // biblioteca para limpar tela
+#include <string.h>
 using namespace std;
 
 // Função para limpar a tela
@@ -84,9 +85,8 @@ void cadastrarLivros(livro livros[], int *sz) {
     (*sz)++;
 }
 
-/*
 int consultaLivros(struct livro livroscadastrados[], int sz) {
-    int valor; int id; int titulo;
+    int valor; int id; char titulo_desejado[100];
     
     cout << "Digite (1) para acessar o livro pelo ID ou (2) para título"; 
     if (valor != 1 && valor != 2){
@@ -96,30 +96,42 @@ int consultaLivros(struct livro livroscadastrados[], int sz) {
     
     if (valor == 1){
         cout << "Agora, digite o ID do livro: "; cin >> id;
-        for(int i = 0; i < sz; i++){
+        
+        for(int i = 0; i <= sz; i++){
             if(livroscadastrados[i].id == id) {
                 cout << "Livro encontrado!" <<endl;
-                printLivrosVet(livroscadastrados, &sz); //precisa referenciar?
+                printLivrosVet(livroscadastrados, sz);
+                break;
             }
-        } cout << "Livro não encontrado pelo ID "<< livroscadastrados[i].id << endl;
-
-    } else if (valor == 2){
-        cout << "Agora, digite o título do livro: "; cin >> titulo;
-        cin.ignore();
-        cin.getline(titulo, 100);
-        
-        for(int i = 0; i < sz; i++) {
-            if(strcmp(livroscadastrados[i].titulo, titulo) == 0){
-                printUmLivro(livroscadastrados, &sz); //precisa referenciar?
+            else if(i == sz and livroscadastrados[i].id != id)
+            {
+                cout << "Livro não encontrado pelo ID "<< id << endl;
+                break;    
             }
             
-        } cout << "Livro não encontrado pelo Titulo "<< livroscadastrados[i].titulo << endl;
+        } 
+
+    } else if (valor == 2){
+        cout << "Agora, digite o título do livro: ";
+        cin.ignore();
+        cin.getline(titulo_desejado, 100);
+        
+        for(int i = 0; i < sz; i++) {
+            if(strcmp(livroscadastrados[i].titulo, titulo_desejado) == 0){
+                cout << "Livro encontrado!" <<endl;
+                printLivrosVet(livroscadastrados, sz);
+                break;
+            }
+            else if(i == sz and strcmp(livroscadastrados[i].titulo, titulo_desejado) != 0)
+            {
+                cout << "Livro não encontrado pelo Titulo "<< titulo_desejado << endl;
+                break;    
+            }
+        }
     }
 
-return 0;
-
+    return 0;
 }
-*/
 
 void emprestimoLivros(struct livro livroscadastrados[], int *sz) {
     int opcao;
@@ -293,7 +305,7 @@ int main () {
                 break;
             case 2:
                 cin.ignore();
-                // consultaLivros(vetLivros, qtd_disponivel); 
+                consultaLivros(vetLivros, qnt_livros); 
                 break;
             case 3:
                 emprestimoLivros(vetLivros, &qnt_livros);                
