@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdlib> // biblioteca para limpar tela
+#include <string.h>
 using namespace std;
 
 // Função para limpar a tela
@@ -85,7 +86,7 @@ void cadastrarLivros(livro livros[], int *sz) {
 }
 
 int consultaLivros(struct livro livroscadastrados[], int sz) {
-    int valor; int id; int titulo;
+    int valor; int id; char titulo_desejado[100];
     
     cout << "Digite (1) para acessar o livro pelo ID ou (2) para título"; 
     if (valor != 1 && valor != 2){
@@ -95,16 +96,16 @@ int consultaLivros(struct livro livroscadastrados[], int sz) {
     
     if (valor == 1) {
         cout << "Agora, digite o ID do livro: "; cin >> id;
-        for(int i = 0; i < sz; i++){
+        
+        for(int i = 0; i <= sz; i++){
             if(livroscadastrados[i].id == id) {
                 cout << "Livro encontrado!" <<endl;
                 printLivrosVet(livroscadastrados, sz);
                 break;
             }
-        } cout << "Livro não encontrado pelo ID "<< id << endl;
+        } cout << "Livro não encontrado pelo ID "<< livroscadastrados[i].id << endl;
 
-    } else if (valor == 2){
-        cout << "Agora, digite o título do livro: "; cin >> titulo;
+    } else if (valor == 2) {
         //
     }
 
