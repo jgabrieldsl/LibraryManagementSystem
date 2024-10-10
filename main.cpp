@@ -94,7 +94,7 @@ int consultaLivros(struct livro livroscadastrados[], int sz) {
         return 1;
     } 
     
-    if (valor == 1) {
+    if (valor == 1){
         cout << "Agora, digite o ID do livro: "; cin >> id;
         
         for(int i = 0; i <= sz; i++){
@@ -103,10 +103,31 @@ int consultaLivros(struct livro livroscadastrados[], int sz) {
                 printLivrosVet(livroscadastrados, sz);
                 break;
             }
-        } cout << "Livro não encontrado pelo ID "<< livroscadastrados[i].id << endl;
+            else if(i == sz and livroscadastrados[i].id != id)
+            {
+                cout << "Livro não encontrado pelo ID "<< id << endl;
+                break;    
+            }
+            
+        } 
 
-    } else if (valor == 2) {
-        //
+    } else if (valor == 2){
+        cout << "Agora, digite o título do livro: ";
+        cin.ignore();
+        cin.getline(titulo_desejado, 100);
+        
+        for(int i = 0; i < sz; i++) {
+            if(strcmp(livroscadastrados[i].titulo, titulo_desejado) == 0){
+                cout << "Livro encontrado!" <<endl;
+                printLivrosVet(livroscadastrados, sz);
+                break;
+            }
+            else if(i == sz and strcmp(livroscadastrados[i].titulo, titulo_desejado) != 0)
+            {
+                cout << "Livro não encontrado pelo Titulo "<< titulo_desejado << endl;
+                break;    
+            }
+        }
     }
 
     return 0;
