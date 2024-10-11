@@ -88,9 +88,12 @@ void cadastrarLivros(livro livros[], int *sz) {
 int consultaLivros(struct livro livroscadastrados[], int sz) {
     int valor; int id; char titulo_desejado[100];
     
-    cout << "Digite (1) para acessar o livro pelo ID ou (2) para título"; 
+    limparTela();
+    cout << "Digite (1) para acessar o livro pelo ID ou (2) para título: "; 
+    cin>>valor;
     if (valor != 1 && valor != 2){
         cout << "Valor inválido. Digite apenas (1) ou (2).";
+        cin>>valor;
         return 1;
     } 
     
@@ -99,13 +102,17 @@ int consultaLivros(struct livro livroscadastrados[], int sz) {
         
         for(int i = 0; i <= sz; i++){
             if(livroscadastrados[i].id == id) {
+                cout<<endl;
                 cout << "Livro encontrado!" <<endl;
+                cout<<endl;
                 printLivrosVet(livroscadastrados, sz);
                 break;
             }
             else if(i == sz and livroscadastrados[i].id != id)
             {
+                cout<<endl;
                 cout << "Livro não encontrado pelo ID "<< id << endl;
+                cout<<endl;
                 break;    
             }
             
@@ -314,10 +321,11 @@ int main () {
                 devolucaoLivros(vetLivros, &qnt_livros);
                 break;
             case 5:
+                remocaoLivros(vetLivros, &qnt_livros);
                 break;
             case 6:
                 cout << "Até logo...";
-                break;
+                return 0;
             default:
                 cout << "Opção inválida!";
                 break;
