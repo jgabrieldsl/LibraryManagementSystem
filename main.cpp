@@ -265,27 +265,25 @@ void remocaoLivros(struct livro livroscadastrados[], int *sz){
     if (opcao == 1)
     {
         printLivrosVet(livroscadastrados, *sz);
-        return;
     } 
-    else
-    {
-        cout << "\nDigite o identificador para remover o livro: " << endl;
-        cin >> id_requisitado;
+    
+    cout << "\nDigite o identificador para remover o livro: " << endl;
+    cin >> id_requisitado;
 
-        for (int i = 0; i <= *sz; i++) {
-            if(id_requisitado == livroscadastrados[i].id)
+    for (int i = 0; i <= *sz; i++) {
+        if(id_requisitado == livroscadastrados[i].id)
+        {
+            for(int j = i; j <= *sz; j++)
             {
-                for(int j = i; j <= *sz; j++)
-                {
-                    livroscadastrados[j] = livroscadastrados[j + 1];
-                }
+                livroscadastrados[j] = livroscadastrados[j + 1];
             }
         }
-
-        (*sz)--;
-        
-        cout << "Livro Removido!" << endl;
     }
+
+    (*sz)--;
+    
+    cout << "Livro Removido!" << endl;
+    
 }
 
 int main () {
