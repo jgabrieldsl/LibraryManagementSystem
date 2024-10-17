@@ -81,7 +81,7 @@ void cadastrarLivros(livro livros[], int *sz) {
             livros[*sz].nome_emprestaram[i][0] = '\0';
         }
     }
-
+    limparTela();
     (*sz)++;
 }
 
@@ -252,23 +252,27 @@ void devolucaoLivros(struct livro livroscadastrados[], int *sz) {
     }
 }
 
-void remocaoLivros(struct livro livroscadastrados[], int *sz) {
+void remocaoLivros(struct livro livroscadastrados[], int *sz) 
+{
     int opcao;
     int id_requisitado;
     bool validacao = true;
 
     cout << "==========Remover Livros==========" << endl;
 
-    while (validacao) {
+    while (validacao) 
+    {
         cout << "\nDeseja consultar os livros cadastrados? \nDigite [1] para sim: \nDigite [2] para não: " << endl;
         cin >> opcao;
 
         // Verifica a entrada do usuário
-        if (opcao != 1 && opcao != 2) {
+        if (opcao != 1 && opcao != 2) 
+        {
             cout << "Opção inválida! Por favor, digite [1] ou [2]." << endl;
             continue;  // Volta para o início do loop
         } 
-        else if (opcao == 1) {
+        else if (opcao == 1) 
+        {
             printLivrosVet(livroscadastrados, *sz);
         }
 
@@ -276,25 +280,31 @@ void remocaoLivros(struct livro livroscadastrados[], int *sz) {
         cin >> id_requisitado;
 
         bool livroRemovido = false; // Flag para verificar se o livro foi removido
-        for (int i = 0; i < *sz; i++) { // Corrigido de <= para <
-            if (id_requisitado == livroscadastrados[i].id) {
-                for (int j = i; j < *sz - 1; j++) { // Corrigido de <= para <
+        
+        for (int i = 0; i < *sz; i++) 
+        { // Corrigido de <= para <
+            if (id_requisitado == livroscadastrados[i].id) 
+            {
+                for (int j = i; j < *sz - 1; j++) 
+                { // Corrigido de <= para <
                     livroscadastrados[j] = livroscadastrados[j + 1];
                 }
+                
                 livroRemovido = true; // Marcar que um livro foi removido
+                
                 (*sz)--; // Reduzir o tamanho do vetor
+                
                 cout << "Livro Removido!" << endl;
                 break; // Sair do loop de remoção
             }
         }
-
-        if (!livroRemovido) {
+        if (!livroRemovido) 
+        {
             cout << "Livro não encontrado!" << endl;
         }
-
         validacao = false; // Se você quer sair após a remoção, mantenha isso. Se não, remova esta linha.
     }
-}
+
 
     
     
@@ -334,6 +344,7 @@ int main () {
                 devolucaoLivros(vetLivros, &qnt_livros);
                 break;
             case 5:
+                limparTela();
                 remocaoLivros(vetLivros, &qnt_livros);
                 break;
             case 6:
