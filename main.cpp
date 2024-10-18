@@ -81,6 +81,8 @@ void cadastrarLivros(livro livros[], int *sz) {
             livros[*sz].nome_emprestaram[i][0] = '\0';
         }
     }
+    cout << "Livro cadastrado com sucesso!" << endl << endl;
+    cout << "Saindo para o menu...";
     (*sz)++;
 }
 
