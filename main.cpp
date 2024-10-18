@@ -136,7 +136,7 @@ int consultaLivros(struct livro livroscadastrados[], int sz) {
         }
     }
 
-    return;
+    return 0;
 }
 
 void emprestimoLivros(struct livro livroscadastrados[], int *sz) {
