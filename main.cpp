@@ -36,7 +36,7 @@ void printLivros(livro &livros) {
     cout << "Ano de publicação: " << livros.ano_publicacao << endl;
     cout << "Id: " << livros.id << endl;
     cout << "Quantidade de Exemplares Dísponiveis: " << livros.quantidade_disponivel << endl;
-    cout << "Nome das Pessoas que estão com o livro: ";
+    cout << "Nome das Pessoas que estão com o livro: " << endl << endl;
     for (int i = 0; i < 10; i++) {
         if (livros.nome_emprestaram[i][0] != '\0') {
             cout << livros.nome_emprestaram[i] << " " << endl;
@@ -81,7 +81,6 @@ void cadastrarLivros(livro livros[], int *sz) {
             livros[*sz].nome_emprestaram[i][0] = '\0';
         }
     }
-    limparTela();
     (*sz)++;
 }
 
@@ -94,7 +93,7 @@ int consultaLivros(struct livro livroscadastrados[], int sz) {
     if (valor != 1 && valor != 2){
         cout << "Valor inválido. Digite apenas (1) ou (2).";
         cin>>valor;
-        return 1;
+        return 1; //Corrigir!!! ele precisa voltar no inicio para uma nova tentativa
     } 
     
     if (valor == 1){
@@ -137,13 +136,13 @@ int consultaLivros(struct livro livroscadastrados[], int sz) {
         }
     }
 
-    return 0;
+    return;
 }
 
 void emprestimoLivros(struct livro livroscadastrados[], int *sz) {
     int opcao;
 
-    cout << "Deseja consultar todos os livros cadastrados? [1/Sim] [2/Não]: ";
+    cout << "Deseja consultar todos os livros cadastrados? \n[1-Sim | 2-Não]: ";
     cin >> opcao;
 
     if (opcao == 1) { 
@@ -183,7 +182,7 @@ void devolucaoLivros(struct livro livroscadastrados[], int *sz) {
 
     cout << "========== Devolução de livros ==========" << endl;
 
-    cout << "Deseja consultar os livros já cadastrados? [1 / sim] [2 / não]: "; 
+    cout << "Deseja consultar os livros já cadastrados? \n[1-Sim | 2-Não]: "; 
     cin >> opcao;
 
     if (opcao == 1) {
@@ -196,16 +195,16 @@ void devolucaoLivros(struct livro livroscadastrados[], int *sz) {
         cin >> id;
 
         bool existe = false; // Utilizado para verificar se o livro já foi cadastrado no sistema ou não
+        bool pessoa = false; //utilizado para verificar se a pessoa foi encontrada 
             
         for (int i = 0; i < *sz; i++) { // verificar se o id digitado existe (encontrar o livro percorrendo a lista dos livros) e realiza a devolução
             
             if (id == livroscadastrados[i].id) {
                 
-                livroscadastrados[i].quantidade_disponivel++;
                 
                 existe = true;
                 
-                cout << "Livro devolvido com sucesso!" << endl;
+                cout << "Livro encontrado." << endl << endl;
                 break;
             }
         }
@@ -222,11 +221,12 @@ void devolucaoLivros(struct livro livroscadastrados[], int *sz) {
                     
                     for(int j = 0; j < 10; j++ ){ // loop para percorrer a lista de nomes que pegaram um determinado livro emprestado
                         
-                        if(livroscadastrados[i].nome_emprestaram[j] == nome){
+                        if(strcmp(livroscadastrados[i].nome_emprestaram[j], nome) == 0){ // Compara o que está armazenado com a informação do usuário e retorna um número
                             
-                            //livroscadastrados[i].nome_emprestaram[j][0] = '\0'; (ARRUMAR!!!)
+                            livroscadastrados[i].nome_emprestaram[j][0] = '\0';
+                            livroscadastrados[i].quantidade_disponivel++;
                             
-                            cout << "Nome removido com sucesso!";
+                            pessoa = true;
                             break; // Sai do "for" que verifica a lista dos nomes porque o "nome" já foi encontrado e "limpo"
                         }
                     }
@@ -235,12 +235,20 @@ void devolucaoLivros(struct livro livroscadastrados[], int *sz) {
             }
         }
             
-        if (!existe) { // "Se" "existe" for diferente de verdadeiro (não encontrou):
+        else{ // "Se" "existe" for diferente de verdadeiro (não encontrou):
             cout << "Livro não encontrado. Tente novamente..." << endl;
             continue; // volta para o inicio do While
         }
+        
+        if(pessoa){
+         cout << "Livro devolvido com sucesso!" << endl;
+            
+        }else{
+            cout << "Pessoa não encontrada. Tente novamente..." << endl;
+            continue;
+        }
             int opcao2;
-            cout << "Deseja devolver outro livro? [1 - sim] [2 - não]: ";
+            cout << "Deseja devolver outro livro? \n[1-Sim | 2-Não]: ";
             cin >> opcao2;
 
             if(opcao2 == 1){
@@ -262,7 +270,7 @@ void remocaoLivros(struct livro livroscadastrados[], int *sz)
 
     while (validacao) 
     {
-        cout << "\nDeseja consultar os livros cadastrados? \nDigite [1] para sim: \nDigite [2] para não: " << endl;
+        cout << "\nDeseja consultar os livros cadastrados? \n[1-Sim | 2-Não]: " << endl;
         cin >> opcao;
 
         // Verifica a entrada do usuário
