@@ -333,7 +333,7 @@ int main () {
         cout << "3. Emprestar livro" << endl;    
         cout << "4. Devolução de livros" << endl;    
         cout << "5. Remoção de livros" << endl;   
-        cout << "6. Sair do programa" << endl;
+        cout << "6. Sair do programa" << endl << endl;
         cin >> opcao;
 
         switch (opcao) {
