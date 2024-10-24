@@ -1,0 +1,9 @@
+#include <cstring> // Para strcpy
+
+if (strcmp(livroscadastrados[i].nome_emprestaram[j], nome) == 0) { 
+    for (int k = j + 1; k < livroscadastrados[i].qtd_pessoas; k++) {
+        strcpy(livroscadastrados[i].nome_emprestaram[k - 1], livroscadastrados[i].nome_emprestaram[k]);
+    }
+    livroscadastrados[i].qtd_pessoas--; // Atualiza a contagem
+    break; // Sai do loop
+}
