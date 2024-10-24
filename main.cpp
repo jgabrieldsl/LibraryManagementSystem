@@ -16,6 +16,7 @@ struct livro {
     int ano_publicacao;
     int id;
     int quantidade_disponivel; // Máximo de 10 exemplares
+    int qtd_pessoas;
     char nome_emprestaram[10][100]; // Array de nomes -> Máximo 10 nomes c/ tamanho de 100 caracteres.
 };
 
@@ -62,21 +63,20 @@ void cadastrarLivros(livro livros[], int *sz) {
         cout << "Não é possível adicionar mais livros. Limite atingido!";
         return;
     }
-    int qtd_pessoas;
     cout << "Titulo: "; cin.getline(livros[*sz].titulo, 100);
     cout << "Autor : "; cin.getline(livros[*sz].autor, 100);
     cout << "Número de páginas: "; cin >> livros[*sz].num_paginas;
     cout << "Ano de publicação: "; cin >> livros[*sz].ano_publicacao;
     cout << "ID: "; cin >> livros[*sz].id;
     cout << "Exemplares dísponiveis: "; cin >> livros[*sz].quantidade_disponivel;
-    cout << "Quantas pessoas estão com este livro emprestado atualmente?: "; cin >> qtd_pessoas;
+    cout << "Quantas pessoas estão com este livro emprestado atualmente?: "; cin >> livros[*sz].qtd_pessoas;
     cin.ignore();
-    if (qtd_pessoas > 0) {
-        for (int i = 0; i < qtd_pessoas; i++) {
+    if (livros[*sz].qtd_pessoas > 0) {
+        for (int i = 0; i < livros[*sz].qtd_pessoas; i++) {
             cout << "Digite o nome da " << i + 1 << "° pessoa que está com o livro: ";
             cin.getline(livros[*sz].nome_emprestaram[i], 100);
         }
-    } else if (qtd_pessoas <= 0) {
+    } else if (livros[*sz].qtd_pessoas <= 0) {
         for (int i = 0; i < 10; i++) {
             livros[*sz].nome_emprestaram[i][0] = '\0';
         }
@@ -221,12 +221,14 @@ void devolucaoLivros(struct livro livroscadastrados[], int *sz) {
                 
                 if(id == livroscadastrados[i].id){
                     
-                    for(int j = 0; j < 10; j++ ){ // loop para percorrer a lista de nomes que pegaram um determinado livro emprestado
+                    for(int j = 0; j < livroscadastrados[*sz].qtd_pessoas; j++ ){ // loop para percorrer a lista de nomes que pegaram um determinado livro emprestado
                         
                         if(strcmp(livroscadastrados[i].nome_emprestaram[j], nome) == 0){ // Compara o que está armazenado com a informação do usuário e retorna um número
-                            
-                            livroscadastrados[i].nome_emprestaram[j][0] = '\0';
+                            for (int k = j + 1; k < livroscadastrados[i].qtd_pessoas; k++){
+                                livroscadastrados[i].nome_emprestaram[k - 1] = livroscadastrados[i].nome_emprestaram[k];
+                            }
                             livroscadastrados[i].quantidade_disponivel++;
+                            livroscadastrados[i].qtd_pessoas--;
                             
                             pessoa = true;
                             break; // Sai do "for" que verifica a lista dos nomes porque o "nome" já foi encontrado e "limpo"
