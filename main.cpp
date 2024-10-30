@@ -35,14 +35,14 @@ void printLivros(livro &livros) {
     cout << "Número de Páginas: " << livros.num_paginas << endl;
     cout << "Ano de publicação: " << livros.ano_publicacao << endl;
     cout << "Id: " << livros.id << endl;
-    cout << "Quantidade de Exemplares Dísponiveis: " << livros.quantidade_disponivel << endl;
-    cout << "Nome das Pessoas que estão com o livro: ";
+    cout << "Quantidade de exemplares dísponiveis: " << livros.quantidade_disponivel << endl;
+    cout << "Nome das Pessoas que estão com o livro: " << endl;
     for (int i = 0; i < 10; i++) {
         if (livros.nome_emprestaram[i][0] != '\0') {
-            cout << livros.nome_emprestaram[i] << " " << endl;
+            cout << i + 1 << "°: "<< livros.nome_emprestaram[i] << " " << endl;
         }
     }
-    cout << "/////////////////////////////////" << endl;
+    cout << endl << "/////////////////////////////////" << endl;
 }
 
 // Chamamos 'sz' normalmente. Usamos *sz somente para modificar o conteúdo diretamente.
@@ -69,7 +69,8 @@ void cadastrarLivros(livro livros[], int *sz) {
     cout << "Ano de publicação: "; cin >> livros[*sz].ano_publicacao;
     cout << "ID: "; cin >> livros[*sz].id;
     cout << "Exemplares dísponiveis: "; cin >> livros[*sz].quantidade_disponivel;
-    cout << "Quantas pessoas estão com este livro emprestado atualmente?: "; cin >> qtd_pessoas;
+    cout << "Quantas pessoas estão com este livro emprestado atualmente?: ";
+    cin >> qtd_pessoas;
     cin.ignore();
     if (qtd_pessoas > 0) {
         for (int i = 0; i < qtd_pessoas; i++) {
@@ -85,52 +86,50 @@ void cadastrarLivros(livro livros[], int *sz) {
     (*sz)++;
 }
 
-int consultaLivros(struct livro livroscadastrados[], int sz) {
-    int valor; int id; char titulo_desejado[100];
+void consultaLivros(struct livro livroscadastrados[], int sz) {
+    int valor, id;
+    char titulo_desejado[100];
+    do {
+        cout << "Digite (1) para acessar o livro pelo ID ou (2) para título: ";
+        cin >> valor;
+
+        if (valor == 1 || valor == 2) {
+            break;
+        }
+        cout << "Valor inválido. Digite apenas (1) ou (2)" << endl;
+    } while (true);
     
-    cout << "Digite (1) para acessar o livro pelo ID ou (2) para título"; 
-    if (valor != 1 && valor != 2){
-        cout << "Valor inválido. Digite apenas (1) ou (2).";
-        return 1;
-    } 
-    
-    if (valor == 1){
+    if (valor == 1) {
         cout << "Agora, digite o ID do livro: "; cin >> id;
         
-        for(int i = 0; i <= sz; i++){
+        for (int i = 0; i <= sz; i++){
             if(livroscadastrados[i].id == id) {
                 cout << "Livro encontrado!" <<endl;
                 printLivrosVet(livroscadastrados, sz);
                 break;
             }
-            else if(i == sz and livroscadastrados[i].id != id)
-            {
+            else if(i == sz and livroscadastrados[i].id != id) {
                 cout << "Livro não encontrado pelo ID "<< id << endl;
                 break;    
             }
-            
         } 
 
-    } else if (valor == 2){
+    } else if (valor == 2) {
         cout << "Agora, digite o título do livro: ";
         cin.ignore();
         cin.getline(titulo_desejado, 100);
         
         for(int i = 0; i < sz; i++) {
-            if(strcmp(livroscadastrados[i].titulo, titulo_desejado) == 0){
+            if (strcmp(livroscadastrados[i].titulo, titulo_desejado) == 0){
                 cout << "Livro encontrado!" <<endl;
                 printLivrosVet(livroscadastrados, sz);
                 break;
-            }
-            else if(i == sz and strcmp(livroscadastrados[i].titulo, titulo_desejado) != 0)
-            {
+            } else if(i == sz and strcmp(livroscadastrados[i].titulo, titulo_desejado) != 0) {
                 cout << "Livro não encontrado pelo Titulo "<< titulo_desejado << endl;
                 break;    
             }
         }
     }
-
-    return 0;
 }
 
 void emprestimoLivros(struct livro livroscadastrados[], int *sz) {
@@ -156,7 +155,7 @@ void devolucaoLivros(struct livro livroscadastrados[], int *sz) {
 
     cout << "========== Devolução de livros ==========" << endl;
 
-    cout << "Deseja consultar os livros já cadastrados? [1 / sim] [2 / não]: "; 
+    cout << "Deseja consultar os livros já cadastrados? [1/Sim] [2/Não]: "; 
     cin >> opcao;
 
     if (opcao == 1) {
@@ -213,7 +212,7 @@ void devolucaoLivros(struct livro livroscadastrados[], int *sz) {
             continue; // volta para o inicio do While
         }
             int opcao2;
-            cout << "Deseja devolver outro livro? [1 - sim] [2 - não]: ";
+            cout << "Deseja devolver outro livro? [1/Sim] [2/Não]: ";
             cin >> opcao2;
 
             if(opcao2 == 1){
@@ -246,7 +245,6 @@ int main () {
                 cadastrarLivros (vetLivros, &qnt_livros);    
                 break;
             case 2:
-                cin.ignore();
                 consultaLivros(vetLivros, qnt_livros); 
                 break;
             case 3:
