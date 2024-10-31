@@ -63,16 +63,29 @@ void cadastrarLivros(livro livros[], int *sz) {
         cout << "Não é possível adicionar mais livros. Limite atingido!";
         return;
     }
-    cout << "Titulo: "; cin.getline(livros[*sz].titulo, 100);
-    cout << "Autor : "; cin.getline(livros[*sz].autor, 100);
-    cout << "Número de páginas: "; cin >> livros[*sz].num_paginas;
-    cout << "Ano de publicação: "; cin >> livros[*sz].ano_publicacao;
-    cout << "ID: "; cin >> livros[*sz].id;
-    cout << "Exemplares dísponiveis: "; cin >> livros[*sz].quantidade_disponivel;
+    while(true){
+        cout << "Titulo: "; cin.getline(livros[*sz].titulo, 100);
+        cout << "Autor : "; cin.getline(livros[*sz].autor, 100);
+        cout << "Número de páginas: "; cin >> livros[*sz].num_paginas;
+        cout << "Ano de publicação: "; cin >> livros[*sz].ano_publicacao;
+        cout << "ID: "; cin >> livros[*sz].id;
+        cout << "Exemplares dísponiveis: "; cin >> livros[*sz].quantidade_disponivel;
+        
+        cout << "Livro cadastrado com sucesso!" << endl << endl;
+        (*sz)++;
+        
+        int opcao2;
+        cout << "Deseja cadastrar outro livro? \n[1-Sim | 2-Não]: ";
+        cin >> opcao2;
     
-    cout << "Livro cadastrado com sucesso!" << endl << endl;
-    cout << "Saindo para o menu...";
-    (*sz)++;
+        if(opcao2 == 1){
+            continue; // volta para o inicio do While
+        }else{
+            
+        cout << "Saindo para o Menu...";
+        return; //sai da função e volta para a anterior (Menu)
+        }
+    }
 }
 
 void consultaLivros(struct livro livroscadastrados[], int sz) {
@@ -272,8 +285,6 @@ void devolucaoLivros(struct livro livroscadastrados[], int sz, int *qnt_empresta
             if(opcao2 == 1){
                 continue; // volta para o inicio do While
             }else{
-                
-            cout << "Saindo para o Menu...";
             return; //sai da função e volta para a anterior (Menu)
         }
     }
@@ -346,6 +357,7 @@ int main () {
     int opcao = 0;
     
     do  {
+        limparTela();
         cout << "\n\tMenu Sistema de Gerenciamento de Biblioteca!" << endl << endl;
         cout << "Escolha uma opção: " << endl;
         cout << "1. Cadastro de livros" << endl;    
