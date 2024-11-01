@@ -78,7 +78,9 @@ void cadastrarLivros(livro livros[], int *sz) {
         cin >> opcao2;
     
         if (opcao2 == 1){
+            cin.ignore();
             continue; // Volta para o inicio do While
+            
         } else{  
             limparTela();
             return; //sai da função e volta para a anterior (Menu)
@@ -177,13 +179,12 @@ void emprestimoLivros(struct livro livroscadastrados[], int sz, int *qnt_emprest
                 (*qnt_emprestaram)++;
                 livroscadastrados[i].quantidade_disponivel--;
                 cout << "Livro emprestado com sucesso!";
-                break;
+                return;
             }
             
-        } else {
-            cout << "Livro não encontrado. Tente novamente." << endl;
         }
     }
+    cout << "Livro não encontrado. Tente novamente." << endl;
 }
 
 
@@ -358,5 +359,5 @@ int main () {
     
     } while (qnt_livros != 6);
 
-    return 0; 
+    return 0;
 }
