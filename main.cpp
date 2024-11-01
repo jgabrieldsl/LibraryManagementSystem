@@ -79,6 +79,7 @@ void cadastrarLivros(livro livros[], int *sz) {
     
         if (opcao2 == 1){
             cin.ignore();
+            limparTela();
             continue; // Volta para o inicio do While
             
         } else{  
