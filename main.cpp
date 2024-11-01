@@ -63,12 +63,16 @@ void printLivrosVet(livro livros[], int sz){
 }
 
 void cadastrarLivros(livro livros[], int *sz) { 
-    limparTela();
-    if (*sz == 100) {
-        cout << "Não é possível adicionar mais livros. Limite atingido!";
-        return;
-    }
+    
     while(true) {
+        limparTela();
+        
+        cout << "\n\t===== CADASTRAR LIVRO =====" << endl << endl;
+        
+        if (*sz == 100) {
+            cout << "Não é possível adicionar mais livros. Limite atingido!";
+            return;
+        }
         cout << "Titulo: "; cin.getline(livros[*sz].titulo, 100);
         cout << "Autor : "; cin.getline(livros[*sz].autor, 100);
         cout << "Número de páginas: "; cin >> livros[*sz].num_paginas;
@@ -85,7 +89,6 @@ void cadastrarLivros(livro livros[], int *sz) {
     
         if (opcao2 == 1){
             cin.ignore();
-            limparTela();
             continue; // Volta para o inicio do While
             
         } else{  
@@ -96,13 +99,19 @@ void cadastrarLivros(livro livros[], int *sz) {
 }
 
 void consultaLivros(struct livro livros[], int sz) {
-    limparTela();
     int valor, id;
     char titulo_desejado[100];
-    do {
+        
+    while(true){
+        limparTela();
+        cout << "\n\t===== CONSULTA LIVROS =====" << endl << endl;
+        
+        
         cout << "Digite (1) para listar todos os livro, (2) para buscar por ID ou (3) para buscar por título: "; 
-        cin >> valor;
-    } while (valor != 1 && valor != 2 && valor != 3);
+        cin >> valor; 
+        
+        if(valor != 1 && valor != 2 && valor != 3)
+            continue;
     
     if (sz == 0) {
         int opc;
@@ -111,7 +120,7 @@ void consultaLivros(struct livro livros[], int sz) {
         cout << "Deseja voltar para o menu? \n[1 -sim | 2 -não]: "; cin >> opc;
         
         if(opc == 1){
-            cout << "\nSaindo para o menu...";
+            limparTela();
             return;
         } else{
             cout << "\nEncerrando...";
@@ -128,92 +137,126 @@ void consultaLivros(struct livro livros[], int sz) {
     }
     if (valor == 2) {
         cout << "Agora, digite o ID do livro: "; cin >> id;
-        for (int i = 0; i <= sz; i++){
-            if (livros[i].id == id) {
-                cout << endl << "Livro encontrado!" << endl;
-                printLivrosVet(livros, sz);
-                break;
-            }
-            else if (i == sz and livros[i].id != id) {
-                cout << endl  << "Livro não encontrado pelo ID "<< id << endl;
-                break;    
-            }
-        } 
-
-    } else if (valor == 3) {
-        cout << "Agora, digite o título do livro: ";
-        cin.ignore();
-        cin.getline(titulo_desejado, 100);
-        
-        for (int i = 0; i < sz; i++) {
-            if (strcmp(livros[i].titulo, titulo_desejado) == 0) {
-                cout << "Livro encontrado!" <<endl;
-                printLivrosVet(livros, sz);
-                break;
-            }
-            else if(i == sz and strcmp(livros[i].titulo, titulo_desejado) != 0) {
-                cout << "Livro não encontrado pelo Titulo "<< titulo_desejado << endl;
-                break;    
+            for (int i = 0; i <= sz; i++){
+                if (livros[i].id == id) {
+                    cout << endl << "Livro encontrado!" << endl;
+                    printLivrosVet(livros, 1);
+                    break;
+                }
+                else if (i == sz and livros[i].id != id) {
+                    cout << endl  << "Livro não encontrado pelo ID "<< id << endl;
+                    break;    
+                }
+            } 
+    
+        } else if (valor == 3) {
+            cout << "Agora, digite o título do livro: ";
+            cin.ignore();
+            cin.getline(titulo_desejado, 100);
+            
+            for (int i = 0; i < sz; i++) {
+                if (strcmp(livros[i].titulo, titulo_desejado) == 0) {
+                    cout << "Livro encontrado!" <<endl;
+                    printLivrosVet(livros, 1);
+                    break;
+                }
+                else if(i == sz and strcmp(livros[i].titulo, titulo_desejado) != 0) {
+                    cout << "Livro não encontrado pelo Titulo "<< titulo_desejado << endl;
+                    break;    
+                }
             }
         }
-    }
+        
+        int opcao2;
+        cout << "Deseja consultar outro livro? \n[1-Sim | 2-Não]: ";
+        cin >> opcao2;
+
+        if (opcao2 == 1) {
+            continue; // volta para o inicio do While
+        } else {
+            limparTela();
+            return; // volta para o Menu
+        }
+        
+    }     
 }
 
 void emprestimoLivros(struct livro livros[], int sz) {
     int opcao;
 
-    cout << "\n\t===== EMPRESTIMOS DE LIVROS =====" << endl << endl;
+    while (true){
+        limparTela();
+        cout << "\n\t===== EMPRESTIMOS DE LIVROS =====" << endl << endl;
+        
+        cout << "Deseja consultar todos os livros cadastrados? \n[1-Sim | 2-Não]: ";
+        cin >> opcao;
     
-    cout << "Deseja consultar todos os livros cadastrados? \n[1-Sim | 2-Não]: ";
-    cin >> opcao;
+        if (opcao == 1) { 
+            printLivrosVet(livros, sz);
+        }
+    
+        int id_digitado;
+        bool existe = false;
+        
+        cout << "Digite o ID do livro para realizar busca: ";
+        cin >> id_digitado;
+        
+        for (int i = 0; i < sz; i++) { // loop para percorrer a lista de livros
+            if (id_digitado == livros[i].id) {
+                existe = true;
+                if (livros[i].qnt_emprestaram == 10){
+                    cout << "Limite de empréstimos para este livro atingido." << endl;
+                    return;
+                } else {
+                    cout << "Digite o nome da pessoa que deseja pegar o livro emprestado: ";
+                    cin.ignore();
+                    cin.getline(livros[i].emprestaram[livros[i].qnt_emprestaram].nomeCliente, 100);
+                    
+                     cout << "Digite o CPF: ";
+                     cin.getline(livros[i].emprestaram[livros[i].qnt_emprestaram].CPF, 12);
+                    
+                    (livros[i].qnt_emprestaram)++;
+                    livros[i].quantidade_disponivel--;
+                    cout << "Livro emprestado com sucesso!" << endl;
+                    break;
+                }
+            } 
+        }
+        
+        if (!existe){
+            cout << "Livro não encontrado. Tente novamente." << endl;
+        }
+    
+        int opcao2;
+        cout << "Deseja emprestar outro livro? \n[1-Sim | 2-Não]: ";
+        cin >> opcao2;
 
-    if (opcao == 1) { 
-        printLivrosVet(livros, sz);
+        if (opcao2 == 1) {
+            continue; // volta para o inicio do While
+        } else {
+            limparTela();
+            return; // volta para o Menu
+        }
     }
-    
-    int id_digitado;
-    cout << "Digite o ID do livro para realizar busca: ";
-    cin >> id_digitado;
-    
-    for (int i = 0; i < sz; i++) { // loop para percorrer a lista de livros
-        if (id_digitado == livros[i].id) {
-            
-            if (livros[i].qnt_emprestaram == 10){
-                cout << "Limite de empréstimos para este livro atingido." << endl;
-                return;
-            } else {
-                cout << "Digite o nome da pessoa que deseja pegar o livro emprestado: ";
-                cin.ignore();
-                cin.getline(livros[i].emprestaram[livros[i].qnt_emprestaram].nomeCliente, 100);
-                
-                 cout << "Digite o CPF: ";
-                 cin.ignore();
-                 cin.getline(livros[i].emprestaram[livros[i].qnt_emprestaram].CPF, 12);
-                
-                (livros[i].qnt_emprestaram)++;
-                livros[i].quantidade_disponivel--;
-                cout << "Livro emprestado com sucesso!";
-                return;
-            }
-        } 
-    }
-    cout << "Livro não encontrado. Tente novamente." << endl;
+        
 }
+
 
 
 void devolucaoLivros(struct livro livros[], int sz) {
     int opcao, id;
 
-    cout << "========== Devolução de livros ==========" << endl;
-
-    cout << "Deseja consultar os livros já cadastrados? \n[1-Sim | 2-Não]: "; 
-    cin >> opcao;
-
-    if (opcao == 1) {
-        printLivrosVet(livros, sz); // Imprime na tela os livros cadastrados
-    }
-    
     while (true) { // loop para caso o usuário desejar devolver um outro livro
+        limparTela();
+        cout << "\n\t===== DEVOLUÇÃO DE LIVROS =====" << endl;
+    
+        cout << "Deseja consultar os livros já cadastrados? \n[1-Sim | 2-Não]: "; 
+        cin >> opcao;
+    
+        if (opcao == 1) {
+            printLivrosVet(livros, sz); // Imprime na tela os livros cadastrados
+        }
+    
         cout << "Digite o ID do livro que deseja devolver: ";
         cin >> id;
 
@@ -280,6 +323,7 @@ void devolucaoLivros(struct livro livros[], int sz) {
         if (opcao2 == 1) {
             continue; // volta para o inicio do While
         } else {
+            limparTela();
             return; // volta para o Menu
         }
     }
@@ -290,9 +334,10 @@ void remocaoLivros(struct livro livros[], int *sz) {
     int opcao, id_requisitado;
     bool validacao = true;
 
-    cout << "==========Remover Livros==========" << endl;
-
     while (validacao) {
+        limparTela();
+        cout << "\n\t===== REMOVER LIVROS =====" << endl;
+
         cout << "\nDeseja consultar os livros cadastrados? \n[1-Sim | 2-Não]: " << endl;
         cin >> opcao;
 
@@ -304,7 +349,7 @@ void remocaoLivros(struct livro livros[], int *sz) {
             printLivrosVet(livros, *sz);
         }
 
-        cout << "\nDigite o identificador para remover o livro: " << endl;
+        cout << "\nDigite o id para remover o livro: " << endl;
         cin >> id_requisitado;
 
         bool livroRemovido = false; // Flag para verificar se o livro foi removido
@@ -329,7 +374,19 @@ void remocaoLivros(struct livro livros[], int *sz) {
         }
 
         validacao = false; // Se você quer sair após a remoção, mantenha isso. Se não, remova esta linha.
-    }
+    
+    
+        int opcao2;
+        cout << "Deseja remover outro livro? \n[1-Sim | 2-Não]: ";
+        cin >> opcao2;
+
+        if (opcao2 == 1) {
+            continue; // volta para o inicio do While
+        } else {
+            limparTela();
+            return; // volta para o Menu
+        }
+    }   
 }
 
 int main () {
