@@ -42,7 +42,21 @@ void printLivros(livro livros) {
             cout << livros.nome_emprestaram[i] << " " << endl;
         }
     }
-    cout << "/////////////////////////////////" << endl;
+    cout << "/////////////////////////////////" << endl << endl;
+    
+    int opcao;
+    cout << "Deseja voltar para o menu? \n [1-Sim | 2-Não]: "; cin >> opcao;
+    
+    if(opcao == 1){
+        
+        limparTela();
+        return;
+        
+        }else{
+            
+            cout << "\nEncerrando...";
+            exit(0);
+        }
 }
 
 // Chamamos 'sz' normalmente. Usamos *sz somente para modificar o conteúdo diretamente.
@@ -115,6 +129,7 @@ void consultaLivros(struct livro livroscadastrados[], int sz) {
     // Imprimindo todas os livros
     if (valor == 1) {
         for (int i = 0; i < sz; i++){
+            limparTela();
             printLivrosVet(livroscadastrados,sz);
         }
     }
