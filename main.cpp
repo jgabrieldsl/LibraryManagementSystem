@@ -36,6 +36,7 @@ void printLivros(livro livros) {
     cout << "Ano de publicação: " << livros.ano_publicacao << endl;
     cout << "Id: " << livros.id << endl;
     cout << "Quantidade de Exemplares Dísponiveis: " << livros.quantidade_disponivel << endl;
+    
     cout << "Nome das Pessoas que estão com o livro: " << endl;
     for (int i = 0; i < 10; i++) {
         if (livros.nome_emprestaram[i][0] != '\0') {
@@ -62,29 +63,32 @@ void cadastrarLivros(livro livros[], int *sz) {
         cout << "Não é possível adicionar mais livros. Limite atingido!";
         return;
     }
-    while(true) {
+    
+    while (true) {
         cout << "Titulo: "; cin.getline(livros[*sz].titulo, 100);
         cout << "Autor : "; cin.getline(livros[*sz].autor, 100);
         cout << "Número de páginas: "; cin >> livros[*sz].num_paginas;
         cout << "Ano de publicação: "; cin >> livros[*sz].ano_publicacao;
         cout << "ID: "; cin >> livros[*sz].id;
-        cout << "Exemplares dísponiveis: "; cin >> livros[*sz].quantidade_disponivel;
+        cout << "Exemplares disponíveis: "; cin >> livros[*sz].quantidade_disponivel;
         
         cout << "Livro cadastrado com sucesso!" << endl << endl;
         (*sz)++;
         
         int opcao2;
-        cout << "Deseja cadastrar outro livro? \n [1-Sim | 2-Não]: ";
+        cout << "Deseja cadastrar outro livro? \n[1-Sim | 2-Não]: ";
         cin >> opcao2;
+        cin.ignore(); // Ignora o '\n' no buffer após o cin >> opcao2
     
-        if (opcao2 == 1){
-            continue; // Volta para o inicio do While
-        } else{  
+        if (opcao2 == 1) {
+            continue; // Volta para o início do While
+        } else {  
             limparTela();
-            return; //sai da função e volta para a anterior (Menu)
+            return; // Sai da função e volta para o menu anterior
         }
     }
 }
+
 
 void consultaLivros(struct livro livroscadastrados[], int sz) {
     limparTela();
@@ -133,7 +137,6 @@ void consultaLivros(struct livro livroscadastrados[], int sz) {
         cin.getline(titulo_desejado, 100);
 
         bool encontrado = false;
-
         
         for (int i = 0; i < sz; i++) {
             if (strcmp(livroscadastrados[i].titulo, titulo_desejado) == 0) {
@@ -145,7 +148,8 @@ void consultaLivros(struct livro livroscadastrados[], int sz) {
         }
 
         if (!encontrado) {
-            cout << "Livro não encontrado pelo Titulo " << titulo_desejado << endl;
+            limparTela();
+            cout << "Livro não encontrado pelo Titulo: " << titulo_desejado << endl;
             
         }
     }
