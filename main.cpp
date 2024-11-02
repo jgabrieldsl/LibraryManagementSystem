@@ -77,7 +77,24 @@ void cadastrarLivros(livro livros[], int *sz) {
         cout << "Autor: "; cin.getline(livros[*sz].autor, 100);
         cout << "Número de páginas: "; cin >> livros[*sz].num_paginas;
         cout << "Ano de publicação: "; cin >> livros[*sz].ano_publicacao;
-        cout << "ID: "; cin >> livros[*sz].id;
+
+        // Não é possível cadastrar um livro com o mesmo ID
+        while (true) {
+            cout << "ID: "; cin >> livros[*sz].id;
+            
+            bool idRepetido = false;
+            for (int i = 0; i < *sz; i++) {
+                if (livros[i].id == livros[*sz].id) {
+                    cout << "ID já cadastrado. Tente novamente." << endl;
+                    idRepetido = true;
+                    break;
+                }
+            }
+
+            if (!idRepetido) {
+                break; // O ID é único, sai do loop
+            }
+        }
         cout << "Exemplares dísponiveis: "; cin >> livros[*sz].quantidade_disponivel;
 
         // Validação para garantir que a quantidade não seja maior que 10
