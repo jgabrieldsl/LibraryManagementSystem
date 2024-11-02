@@ -1,7 +1,8 @@
+// João Gabriel da Silva Leite - 24787392 | Pedro de Mello Porto Daou - 21010698 | Yuri Cardoso Balieiro -24011525 | Pedro Ximenes Costa - 24000763 | Bruno Reitano Figuerola- 24011707
+
 #include <iostream>
-#include <cstdlib> // biblioteca para limpar tela
-#include <cstring>
-#include <string.h>
+#include <cstdlib> // Biblioteca para limpar tela
+#include <cstring> // Manipula strings
 using namespace std;
 
 // Função para limpar a tela
